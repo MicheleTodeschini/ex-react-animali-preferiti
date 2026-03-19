@@ -12,7 +12,19 @@
       const { useState } = React;
 
       const ReactApp = () => {
-        return <></>;
+        const animals = ["bruco", "zebra", "leone", "scimmia"];
+
+        return (
+          <>
+            <details>
+              <ul>
+                {animals.map((animal) => (
+                  <li>{animal}</li>
+                ))}
+              </ul>
+            </details>
+          </>
+        );
       };
     </script>
     <script type="text/babel">
