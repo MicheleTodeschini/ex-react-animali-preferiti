@@ -28,15 +28,59 @@
           setAnimals((prev) => [...prev, animaleFortunato]);
         }
 
+        const [show, setShow] = useState();
+        const [animaleUtente, setAnimaleUtente] = useState("");
+
+        function Modal({ title, content, show = false, onClose = () => {} }) {
+          return (
+            show &&
+            ReactDOM.createPortal(
+              <div className="modal-container">
+                <div className="modal">
+                  <h2>{title}</h2>
+                  <p>{content}</p>
+                  <button onClick={onClose}>Annulla</button>
+                  <button onClick={aggiungiAnimaleUtente}>Conferma</button>
+                </div>
+              </div>,
+              document.body,
+            )
+          );
+        }
+
+        function aggiungiAnimaleUtente() {
+          setAnimals((prev) => [...prev, animaleUtente]);
+          setAnimaleUtente("");
+          setShow(false);
+        }
+
         return (
           <>
             <button onClick={Random}>Aggiungi animale</button>
+            <button onClick={() => setShow(true)}>
+              Aggiungi animale di tua scelta
+            </button>
             <details>
               <ul>
                 {animals.map((animal) => (
                   <li key={animal + 1}>{animal}</li>
                 ))}
               </ul>
+
+              <section>
+                <Modal
+                  title="Il mio titolo"
+                  content={
+                    <input
+                      value={animaleUtente}
+                      onChange={(e) => setAnimaleUtente(e.target.value)}
+                      placeholder="Inserisci animale"
+                    />
+                  }
+                  show={show}
+                  onClose={() => setShow(false)}
+                />
+              </section>
             </details>
           </>
         );
